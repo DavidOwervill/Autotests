@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-
+from selenium.webdriver.common.action_chains import ActionChains
 import unittest, time, re, logging, doctest
 
 # from selenium.webdriver.support.ui import Select
@@ -18,6 +18,10 @@ driver = webdriver.Chrome(service=service)
 test_link = "https://demoqa.com/books"
 test_link_text_box = "https://demoqa.com/text-box"
 test_link_check_box = "https://demoqa.com/checkbox"
+test_link_radio_button = "https://demoqa.com/radio-button"
+test_link_web_table = "https://demoqa.com/webtables"
+
+
 
 logging.basicConfig(level=logging.INFO, filename="py_log.log", filemode="w", format="%(asctime)s %(levelname)s %(message)s")
 
@@ -338,8 +342,99 @@ class BookStore(unittest.TestCase):
         logging.info('Excel File checked')
         time.sleep(5)
 
+    def test_radio_button(self):
+        driver = self.driver
+        driver.get(
+            test_link_radio_button)
+        counter = 0
+        driver.find_element(by=By.CLASS_NAME, value="custom-control-label").click()
+        time.sleep(15)
+        try:
+            self.assertEqual("You have selected Yes", driver.find_element(by=By.XPATH, value="//*[@id='app']/div/div/div[2]/div[2]/div[2]/p").text)
+        except ValueError as v:
+            print(str(v))
+            counter += 1
+            driver.get_screenshot_as_png()
+            driver.save_screenshot(f"RadioButton{counter}.png")
 
+        driver.find_element(by=By.XPATH, value="//*[@id='app']/div/div/div[2]/div[2]/div[2]/div[3]/label").click()
+        time.sleep(15)
+        try:
+            self.assertEqual("You have selected Impressive", driver.find_element(by=By.XPATH, value="//*[@id='app']/div/div/div[2]/div[2]/div[2]/p").text)
+        except ValueError as v:
+            print(str(v))
+            counter += 1
+            driver.get_screenshot_as_png()
+            driver.save_screenshot(f"RadioButton{counter}.png")
+        logging.info("Rudio button checked")
 
+    def test_web_tables(self):
+        driver = self.driver
+        driver.get(
+            test_link_web_table)
+        driver.find_element(by=By.ID, value="addNewRecordButton").click()
+        time.sleep(10)
+        # Вносим данные в открывшемся окне
+        driver.find_element(by=By.ID, value='firstName').send_keys('Test First Name')
+        time.sleep(5)
+        driver.find_element(by=By.ID, value='lastName').send_keys('Test Last Name')
+        time.sleep(5)
+        driver.find_element(by=By.ID, value='userEmail').send_keys('TestMail@test.com')
+        time.sleep(5)
+        driver.find_element(by=By.ID, value='age').send_keys('23')
+        time.sleep(5)
+        driver.find_element(by=By.ID, value='salary').send_keys('23')
+        time.sleep(5)
+        driver.find_element(by=By.ID, value='department').send_keys('Test department')
+        driver.find_element(by=By.ID, value='submit').click()
+        logging.info("Test form is filled")
+        time.sleep(15)
+        # Проверяем внесение данных в исходную табличку
+        try:
+            self.assertEqual('Test First Name', driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[2]/div[4]/div/div[1]').text)
+        except ValueError as v:
+            print(str(v))
+        try:
+            self.assertEqual('Test Last Name', driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[2]/div[4]/div/div[2]').text)
+        except ValueError as v:
+            print(str(v))
+        try:
+            self.assertEqual('23', driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[2]/div[4]/div/div[3]').text)
+        except ValueError as v:
+            print(str(v))
+        try:
+            self.assertEqual('TestMail@test.com', driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[2]/div[4]/div/div[4]').text)
+        except ValueError as v:
+            print(str(v))
+        try:
+            self.assertEqual('23', driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[2]/div[4]/div/div[5]').text)
+        except ValueError as v:
+            print(str(v))
+        try:
+            self.assertEqual('Test department', driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[2]/div[4]/div/div[6]').text)
+        except ValueError as v:
+            print(str(v))
+        time.sleep(10)
+        driver.execute_script("window.scrollTo(0, 250);")
+        target_left = driver.find_element(by=By.CLASS_NAME, value='action-buttons')
+        driver.execute_script("arguments[0].scrollIntoView();", target_left)
+        time.sleep(5)
+        driver.execute_script("window.scrollTo(250, 0);")
+        driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[2]/div[4]/div/div[7]/div/span[1]').click()
+        time.sleep(5)
+        # Проверка изменения
+        driver.find_element(by=By.ID, value='firstName').clear()
+        driver.find_element(by=By.ID, value='firstName').send_keys("Test First Name 2")
+        time.sleep(5)
+        driver.find_element(by=By.ID, value='submit').click()
+        time.sleep(5)
+        target_right = driver.find_element(by=By.CLASS_NAME, value='rt-td')
+        driver.execute_script("arguments[0].scrollIntoView();", target_right)
+        time.sleep(5)
+        try:
+            self.assertEqual('Test First Name 2', driver.find_element(by=By.XPATH, value='/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[3]/div[1]/div[2]/div[4]/div/div[1]').text)
+        except ValueError as v:
+            print(str(v))
 
 
 
