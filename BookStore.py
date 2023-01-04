@@ -649,7 +649,6 @@ class ToolsQA(unittest.TestCase):
         Данная функция работает со страничкой https://demoqa.com/broken.
         Для начала, проверяет наличие картинок путем сверки href с заданной и затем делает скриншот.
         Далее нажимает на ссылки и проверяет правильность перехода по нужной ссылке.
-        :return:
         """
         driver = self.driver
         driver.get(test_link_broken)
