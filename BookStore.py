@@ -29,6 +29,7 @@ test_link_web_table = "https://demoqa.com/webtables"
 test_link_buttons = 'https://demoqa.com/buttons'
 test_link_links = "https://demoqa.com/links"
 test_link_broken = "https://demoqa.com/broken"
+test_link_upload_download = "https://demoqa.com/upload-download"
 
 
 # Настройка логов
@@ -682,6 +683,14 @@ class ToolsQA(unittest.TestCase):
             print(str(nsex))
         driver.back()
 
+
+    def test_upload_download_file(self):
+        driver = self.driver
+        driver.get(test_link_upload_download)
+        upload = driver.find_element(by=By.XPATH, value="//*[@id='uploadFile']")
+        time.sleep(5)
+        upload.send_keys("C:/Users/User/Desktop/GIT/Autotests/img/sampleFile.jpeg")
+        time.sleep(5)
 
 
 
