@@ -21,7 +21,7 @@ class LogInClass(unittest.TestCase):
         self.verificationErrors = []
         self.accept_next_alert = True
 
-    def test_log_in(self, username="TestUserName", password="David123456789!"):
+    def test_log_in(self, username: str = "TestUserName", password: str = "David123456789!"):
         """
         Данная функция работает на страничке - https://demoqa.com/books.
         Вводятся данные для возможности за логиниться:
@@ -30,9 +30,6 @@ class LogInClass(unittest.TestCase):
         Затем проводится проверка авторизации путем сверки НикНейма на страничке https://demoqa.com/books
         """
 
-        # log_in_button = "/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[1]/div[2]/button"
-        # log_in_check = "/html/body/div[2]/div/div/div[2]/div[2]/div[2]/form/div[4]/div[1]/button"
-        # control_user_name = "/html/body/div[2]/div/div/div[2]/div[2]/div[2]/div[1]/div[2]/label[2]"
         driver = self.driver
         driver.get("https://demoqa.com/books")
         driver.find_element(by=By.XPATH,
