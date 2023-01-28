@@ -2,6 +2,7 @@ from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 import unittest, time, logging
 
 
@@ -47,13 +48,16 @@ class LocatorsCheckBox():
 
 class CheckBox(unittest.TestCase):
     def setUp(self):
-        # AppDynamics will automatically override this web driver
-        # as documented in https://docs.appdynamics.com/display/PRO44/Write+Your+First+Script
-        self.driver = webdriver.Chrome()
+        # настройка для не открывающегося окна браузера
+        self.chrome_options = Options()
+        self.chrome_options.add_argument("--headless")
+        # конец настройки
+        self.driver = webdriver.Chrome(options=self.chrome_options)
         self.driver.implicitly_wait(30)
         self.base_url = "https://www.google.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
+
 
     def test_check_box(self):
         """
