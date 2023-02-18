@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from selenium import webdriver
+from setting_chrome import SetUpUniChrome
 import unittest
 import time
 
@@ -13,14 +13,7 @@ class LogInVars:
     log_in_failed = "/html/body/div[2]/div/div/div[2]/div[2]/div[2]/form/div[5]/div/p"
 
 
-class LogInClass(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Chrome()
-        self.driver.implicitly_wait(30)
-        self.base_url = "https://www.google.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
-
+class LogInClass(SetUpUniChrome):
     def test_log_in(self, username: str = "TestUserName", password: str = "David123456789!"):
         """
         Данная функция работает на страничке - https://demoqa.com/books.
