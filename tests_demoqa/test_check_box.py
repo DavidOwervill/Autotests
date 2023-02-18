@@ -1,9 +1,8 @@
 from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
-import unittest, time, logging
+from setting_chrome import SetUpUniChrome
+import time, logging
 
 
 class LocatorsCheckBox():
@@ -18,7 +17,7 @@ class LocatorsCheckBox():
     downloads_check_box = "//*[@id='tree-node']/ol/li/ol/li[3]/span/label/span[1]"
     downloads_title = "//*[@id='result']/span[2]"
     downloads_level_aria_button = '//*[@id="tree-node"]/ol/li/ol/li[3]/span/button'
-    desktop_level_aria_button =  "//*[@id='tree-node']/ol/li/ol/li[1]/span/button"
+    desktop_level_aria_button = "//*[@id='tree-node']/ol/li/ol/li[1]/span/button"
     notes_check_box = "//*[@id='tree-node']/ol/li/ol/li[1]/ol/li[1]/span/label/span[1]"
     notes_title = "//*[@id='result']/span[2]"
     commands_check_box = "//*[@id='tree-node']/ol/li/ol/li[1]/ol/li[2]/span/label/span[1]"
@@ -44,20 +43,7 @@ class LocatorsCheckBox():
     first_level_aria_button = ".rct-collapse.rct-collapse-btn"
 
 
-
-
-class CheckBox(unittest.TestCase):
-    def setUp(self):
-        # настройка для не открывающегося окна браузера
-        self.chrome_options = Options()
-        self.chrome_options.add_argument("--headless")
-        # конец настройки неоткрывающегося окна
-        self.driver = webdriver.Chrome(options=self.chrome_options)
-        self.driver.implicitly_wait(30)
-        self.base_url = "https://www.google.com/"
-        self.verificationErrors = []
-        self.accept_next_alert = True
-
+class CheckBox(SetUpUniChrome):
 
     def test_check_box(self):
         """
