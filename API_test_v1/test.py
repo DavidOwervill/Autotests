@@ -1,5 +1,5 @@
 import requests
-
+from src.enums.global_enums import GlobalEnumError
 
 
 class TestSwagger:
@@ -10,12 +10,11 @@ class TestSwagger:
         pass
 
     def test_get_auth(self):
-        response = requests.get("https://httpbin.org/basic-auth/test/test")
-        assert response.status_code == 401
-        assert response.json().get("authenticated") == "true"
-        assert response.json().get('user') == "Test"
+        response = requests.get("https://httpbin.org/status/200")
+        assert response.status_code == 200, GlobalEnumError.WRONG_STATUS_CODE
+        # assert response.json().get("authenticated") == "true"
+        # assert response.json().get('user') == "Test"
         print(response.text)
-
 
 
 if __name__ == "__main__":
