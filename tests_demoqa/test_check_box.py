@@ -1,7 +1,6 @@
-from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from setting_chrome import SetUpUniChrome
+import pytest
 import time, logging
 
 
@@ -42,8 +41,8 @@ class LocatorsCheckBox():
     # CSS
     first_level_aria_button = ".rct-collapse.rct-collapse-btn"
 
-
-class CheckBox(SetUpUniChrome):
+@pytest.mark.usefixtures("set_up_chrome")
+class TestCheckBox():
 
     def test_check_box(self):
         """
@@ -58,10 +57,7 @@ class CheckBox(SetUpUniChrome):
         driver.get(
             "https://demoqa.com/checkbox")
         driver.find_element(by=By.XPATH, value=LocatorsCheckBox.home_check_box).click()
-        try:
-            self.assertEqual("home", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.home_title).text)
-        except NoSuchElementException as e:
-            print(str(e))
+        assert "home" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.home_title).text
         time.sleep(5)
 
         # Опускаемся на 1 слой глубже
@@ -69,26 +65,17 @@ class CheckBox(SetUpUniChrome):
         driver.find_element(by=By.XPATH, value=LocatorsCheckBox.home_check_box).click()
         driver.find_element(by=By.CSS_SELECTOR, value=LocatorsCheckBox.first_level_aria_button).click()
         driver.find_element(by=By.XPATH, value=LocatorsCheckBox.desktop_check_box).click()
-        try:
-            self.assertEqual("desktop", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.desktop_title).text)
-        except NoSuchElementException as e:
-            print(str(e))
-        logging.info('Desktop checked')
+        assert "desktop" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.desktop_title).text
+        #logging.info('Desktop checked')
         time.sleep(5)
         driver.find_element(by=By.XPATH, value=LocatorsCheckBox.desktop_check_box).click()
         driver.find_element(by=By.XPATH, value=LocatorsCheckBox.documents_check_box).click()
-        try:
-            self.assertEqual("documents", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.documents_title).text)
-        except NoSuchElementException as e:
-            print(str(e))
+        assert "documents" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.documents_title).text
         logging.info('Documents checked')
         time.sleep(5)
         driver.find_element(by=By.XPATH, value=LocatorsCheckBox.documents_check_box).click()
         driver.find_element(by=By.XPATH, value=LocatorsCheckBox.downloads_check_box).click()
-        try:
-            self.assertEqual("downloads", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.downloads_title).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "downloads" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.downloads_title).text
         logging.info('Downloads checked')
         time.sleep(5)
 
@@ -102,20 +89,14 @@ class CheckBox(SetUpUniChrome):
         logging.info('Down to the Desktop level')
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.notes_check_box).click()
-        try:
-            self.assertEqual("notes", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.notes_title).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "notes" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.notes_title).text
         logging.info('Notes checked')
         time.sleep(5)
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.notes_check_box).click()
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.commands_check_box).click()
-        try:
-            self.assertEqual("commands", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.commands_title).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "commands" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.commands_title).text
         logging.info('Commands checked')
         time.sleep(5)
 
@@ -131,20 +112,14 @@ class CheckBox(SetUpUniChrome):
 
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.workspace_check_box).click()
-        try:
-            self.assertEqual("workspace", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.workspace_title).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "workspace" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.workspace_title).text
         logging.info("WorkSpace checked")
         time.sleep(5)
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.workspace_check_box).click()
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.office_check_box).click()
-        try:
-            self.assertEqual("office", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.office_title).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "office" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.office_title).text
         logging.info("Office checked")
 
         # Проваливаемся на 1 уровень ниже в рамках Documents
@@ -157,30 +132,21 @@ class CheckBox(SetUpUniChrome):
 
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.react_check_box).click()
-        try:
-            self.assertEqual("react", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.react_title).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "react" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.react_title).text
         logging.info('React checked')
         time.sleep(5)
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.react_check_box).click()
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.angular_check_box).click()
-        try:
-            self.assertEqual("angular", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "angular" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text
         logging.info('Angular checked')
         time.sleep(5)
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.angular_check_box).click()
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.veu_check_box).click()
-        try:
-            self.assertEqual("veu", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "veu" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text
         logging.info('Veu Checked')
         time.sleep(5)
 
@@ -195,30 +161,21 @@ class CheckBox(SetUpUniChrome):
 
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.public_check_box).click()
-        try:
-            self.assertEqual("public", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "public" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text
         logging.info('public checked')
         time.sleep(5)
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.public_check_box).click()
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.private_check_box).click()
-        try:
-            self.assertEqual("private", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "private" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text
         logging.info('Private was checked')
         time.sleep(5)
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.private_check_box).click()
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.classified_check_box).click()
-        try:
-            self.assertEqual("classified", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "classified" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text
         logging.info('Classified was checked')
         time.sleep(5)
         driver.find_element(by=By.XPATH,
@@ -226,10 +183,7 @@ class CheckBox(SetUpUniChrome):
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.general_check_box).click()
         driver.find_element(by=By.TAG_NAME, value='body').send_keys(Keys.END)
-        try:
-            self.assertEqual("general", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "general" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text
         logging.info('General was checked')
         time.sleep(5)
 
@@ -245,19 +199,13 @@ class CheckBox(SetUpUniChrome):
         driver.find_element(by=By.XPATH, value=LocatorsCheckBox.downloads_level_aria_button).click()
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.wordfile_check_box).click()
-        try:
-            self.assertEqual("wordFile", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "wordFile" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text
         logging.info('Word File checked')
         time.sleep(5)
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.wordfile_check_box).click()
         driver.find_element(by=By.XPATH,
                             value=LocatorsCheckBox.excelfile_check_box).click()
-        try:
-            self.assertEqual("excelFile", driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text)
-        except AssertionError as e:
-            print(str(e))
+        assert "excelFile" == driver.find_element(by=By.XPATH, value=LocatorsCheckBox.title_check).text
         logging.info('Excel File checked')
         time.sleep(5)

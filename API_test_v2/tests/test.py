@@ -9,7 +9,7 @@ class TestSampleApi:
         Функция работает с сайтом sampleapis раздел персонажи, проверяет статус код и валидацию схемы, написанной вручную
         """
         response = requests.get("https://api.sampleapis.com/rickandmorty/characters")
-        SampleApiCharacters(response).assert_status_code(300)
+        SampleApiCharacters(response).assert_status_code(200)
 
 
     def test_get_characters_validate_schema(self):
